@@ -18,7 +18,8 @@ with requests.get(url) as response:  # το αντικείμενο response
 
     header = response.headers
     print("Ο εξυπηρετητής χρησιμοποιεί λογισμικό:", header['server'])
-    cookies = response.cookies
-    print("Η σελίδα χρησιμοποιεί τα παρακάτω cookies:\n",cookies.get_dict())
-
-    print("Ο εξυπηρετητής χρησιμοποιεί λογισμικό:", header['server'])
+    cookie = response.cookies
+    print("Η σελίδα χρησιμοποιεί τα παρακάτω cookies:\n",cookie.get_dict())
+    #expires = response.session.get(url)
+    for cookie in response.cookies:
+        print("To cookie",cookie.name,"λήγει:", cookie.expires)
