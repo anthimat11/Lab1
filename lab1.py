@@ -1,4 +1,6 @@
 import requests  # εισαγωγή της βιβλιοθήκης
+from datetime import datetime
+
 
 def more(text):
     count = 0
@@ -9,17 +11,22 @@ def more(text):
             reply = input('Show more (y/n)? ')
             if reply == 'n':
                 break
+while True:
+    url = input("\nInsert url:")  # εισαγωγή του url από τον χρήστη
 
-url = input("Insert url:")  # προσδιορισμός του url
+    with requests.get(url) as response:  # το αντικείμενο response
+        html = response.text
+        more(html)
+        
+        header = response.headers   #εύρεση λογισμικού web server
+        print("Ο εξυπηρετητής χρησιμοποιεί λογισμικό:", header['server'])
+        
+        cookie = response.cookies   #εύρεση cookies του website
+        print("Η σελίδα χρησιμοποιεί τα παρακάτω cookies:")
+        
+        for cookie in response.cookies:     #εύρεση ημερομηνία και ώρα λήξης κάθε cookie
+            if cookie.expires == None: print("To cookie",cookie.name,"που δεν λήγει!")
+            else:print("To cookie",cookie.name,"που λήγει στις ", datetime.fromtimestamp(cookie.expires))
+            
 
-with requests.get(url) as response:  # το αντικείμενο response
-    html = response.text
-    more(html)
 
-    header = response.headers
-    print("Ο εξυπηρετητής χρησιμοποιεί λογισμικό:", header['server'])
-    cookie = response.cookies
-    print("Η σελίδα χρησιμοποιεί τα παρακάτω cookies:\n",cookie.get_dict())
-    #expires = response.session.get(url)
-    for cookie in response.cookies:
-        print("To cookie",cookie.name,"λήγει:", cookie.expires)
