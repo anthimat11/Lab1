@@ -1,6 +1,3 @@
-import requests  # εισαγωγή της βιβλιοθήκης
-
-
 def more(text):
     count = 0
     for line in text.split('\n'):
@@ -11,9 +8,10 @@ def more(text):
             if reply == 'n':
                 break
 
-
-url = 'http://python.org/'  # προσδιορισμός του url
+url = input("Insert url:")  # προσδιορισμός του url
 
 with requests.get(url) as response:  # το αντικείμενο response
-    html = response.text
-    more(html)
+    #html = response.text
+    #more(html)
+    header = response.headers
+    print("Ο εξυπηρετητής χρησιμοποιεί λογισμικό:", header['server'])
