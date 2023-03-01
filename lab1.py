@@ -1,3 +1,5 @@
+import requests  # εισαγωγή της βιβλιοθήκης
+
 def more(text):
     count = 0
     for line in text.split('\n'):
@@ -11,7 +13,12 @@ def more(text):
 url = input("Insert url:")  # προσδιορισμός του url
 
 with requests.get(url) as response:  # το αντικείμενο response
-    #html = response.text
-    #more(html)
+    html = response.text
+    more(html)
+
     header = response.headers
+    print("Ο εξυπηρετητής χρησιμοποιεί λογισμικό:", header['server'])
+    cookies = response.cookies
+    print("Η σελίδα χρησιμοποιεί τα παρακάτω cookies:\n",cookies.get_dict())
+
     print("Ο εξυπηρετητής χρησιμοποιεί λογισμικό:", header['server'])
